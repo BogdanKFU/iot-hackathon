@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="sockjs.min.js"></script>
+    <script src="stomp.min.js"></script>
+</head>
+<body>
+
+
+<script>
+  $(document).ready(function () {
+        connect();
+  });
+
+function connect() {
+    console.log('Connecting..' + 1);
+    var socket = new SockJS('http://127.0.0.1:9000/coordinates');
+    console.log('Socket created');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+                console.log('Connected')
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/coordinates', function(message) {
+                    console.log("message" + message);
+                    console.log("message" + (JSON.parse(message.body)));
+
+                    showGreeting(JSON.parse(message.body).content);
+                });
+    });
+}
+
+
+
+</script>
+
+</body>
+</html>
