@@ -3,6 +3,7 @@
 .idea
 paho*
 *.iml
+target
 
 # Log file
 *.log
