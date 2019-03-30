@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 public class MyStompSessionHandler implements StompSessionHandler {
     @Override
     public void afterConnected(StompSession stompSession, StompHeaders stompHeaders) {
-        System.out.println("Connected: " + stompSession.getSessionId());
+
     }
 
     @Override
@@ -30,6 +30,6 @@ public class MyStompSessionHandler implements StompSessionHandler {
 
     @Override
     public void handleFrame(StompHeaders stompHeaders, Object o) {
-        System.out.println("HIHIHI");
+
     }
 }
