@@ -12,7 +12,7 @@ public class Util {
     private static final Coordinate t2 = new Coordinate(4.4, 0);
     private static final Coordinate t3 = new Coordinate(4.4, 7);
 
-    private static Coordinate getCoordinate(double r1, double r2, double r3){
+    public static Coordinate getCoordinate(double r1, double r2, double r3){
         double d = t1.distance(t2);
         double a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
         double h = Math.sqrt(r1 * r1 - a * a);
