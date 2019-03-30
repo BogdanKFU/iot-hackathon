@@ -37,7 +37,13 @@ public class HiveMqConfig {
             @Override
             public void messageArrived(String topic, MqttMessage message) {
                 MessageCallbackHandler.getMessageCallbacks()
-                        .forEach(callback -> callback.processMessage(topic, message));
+                        .forEach(callback -> {
+                            try {
+                                callback.processMessage(topic, message);
+                            } catch (MqttException e) {
+                                e.printStackTrace();
+                            }
+                        });
             }
 
             @Override

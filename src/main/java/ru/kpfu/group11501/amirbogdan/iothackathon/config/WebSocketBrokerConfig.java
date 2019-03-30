@@ -18,10 +18,10 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         RequestUpgradeStrategy upgradeStrategy = new TomcatRequestUpgradeStrategy();
-        stompEndpointRegistry.addEndpoint("/coordinates")
+        stompEndpointRegistry.addEndpoint("/iot-data")
                 .setHandshakeHandler(new DefaultHandshakeHandler(upgradeStrategy))
                 .setAllowedOrigins("*");
-        stompEndpointRegistry.addEndpoint( "/coordinates").setAllowedOrigins("*").withSockJS();
+        stompEndpointRegistry.addEndpoint( "/iot-data").setAllowedOrigins("*").withSockJS();
     }
 
     @Override

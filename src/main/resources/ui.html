@@ -9,10 +9,51 @@
 </head>
 <body>
 
-
+<table id="field">
+</table>
 <script>
 
-connected = false
+connected = false;
+num = 10;
+src = "empty.jpg";
+srcFilled = "filled.jpg";
+y_cell = 7 / num;
+x_cell = 4.4 / num;
+mark_X = null;
+mark_Y = null;
+current = null;
+
+function calculateCell(x, y) {
+    if (current != null) {
+        var emptyImg = document.createElement("IMG");
+        emptyImg.src = src;
+        current.replaceChild(emptyImg, current.childNodes[0]);
+    }
+    mark_X = Math.round(x / x_cell);
+    mark_Y = Math.round(y / y_cell);
+    var item = document.getElementById("td" + mark_X + mark_Y);
+    var img = document.createElement("IMG");
+    img.src = srcFilled;
+    item.replaceChild(img, item.childNodes[0]);
+    current = item;
+}
+
+function createField() {
+    var table = document.getElementById('field');
+    for (var i = 0; i < num; i++) {
+    var tr = document.createElement("TR");
+    tr.id = "tr" + i;
+    table.appendChild(tr);
+        for (var j = 0; j < num; j++) {
+            var td = document.createElement("TD");
+            var emptyImg = document.createElement("IMG");
+            emptyImg.src = src;
+            td.id = "td" + i + j;
+            td.append(emptyImg);
+            tr.appendChild(td);
+        }
+    }
+}
 
 function setConnected(status) {
     connected = true;
@@ -20,12 +61,13 @@ function setConnected(status) {
 
   $(document).ready(function () {
         connect();
+        createField();
   });
 
 function connect() {
 
     console.log('Connecting..' + 1);
-    var socket = new SockJS('http://127.0.0.1:8080/coordinates');
+    var socket = new SockJS('http://127.0.0.1:8080/iot-data');
     console.log('Socket created');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
@@ -33,13 +75,13 @@ function connect() {
                 setConnected(true);
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/coordinates', function(message) {
-                    console.log("message" + message);
-                    console.log("message" + (JSON.parse(message.body)));
-
-                    showGreeting(JSON.parse(message.body).content);
+                    var coordinate = JSON.parse(message.body);
+                    calculateCell(coordinate.x, coordinate.y);
                 });
     });
 }
+
+
 
 
 
