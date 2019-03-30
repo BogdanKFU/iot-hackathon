@@ -2,6 +2,7 @@
 *.class
 .idea
 paho*
+*.iml
 
 # Log file
 *.log
